@@ -51,12 +51,22 @@ func main() {
 		fmt.Println(id, name)
 	}
 
+	router := setupRouter()
+
+	router.Run("localhost:8080")
+}
+
+func setupRouter() *gin.Engine {
 	router := gin.Default()
+	router.GET("/ping", func(c *gin.Context) {
+		c.String(http.StatusOK, "pong")
+	})
+
 	router.GET("/payments", getPayments)
 	router.GET("/payments/:id", getPaymentById)
 	router.POST("/payments", postPayments)
 
-	router.Run("localhost:8080")
+	return router
 }
 
 func getPayments(c *gin.Context) {
